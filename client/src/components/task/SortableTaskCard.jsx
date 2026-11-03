@@ -11,9 +11,8 @@ function SortableTaskCard({ task, onEdit, onDelete }) {
     transform,
     transition,
     isDragging,
-  } = useSortable({
-    id: task._id,
-  });
+    isOver,
+  } = useSortable({ id: task._id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -24,7 +23,13 @@ function SortableTaskCard({ task, onEdit, onDelete }) {
   };
 
   return (
-    <div ref={setNodeRef} style={style}>
+    <div
+      ref={setNodeRef}
+      style={style}
+      className={`sortable-task-wrapper ${
+        isOver && !isDragging ? "task-drop-target" : ""
+      }`}
+    >
       <TaskCard
         task={task}
         onEdit={onEdit}
