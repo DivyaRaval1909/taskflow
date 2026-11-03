@@ -1,9 +1,23 @@
 
+import { Toaster } from "react-hot-toast";
+import Board from "./components/board/Board";
+import "./App.css";
+
 function App() {
   return (
     <div className="app">
-      <h1>TaskFlow</h1>
-      <p>Your workspace starts here.</p>
+      <Board />
+
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 3000,
+          style: {
+            borderRadius: "10px",
+            fontSize: "13px",
+          },
+        }}
+      />
     </div>
   );
 }
