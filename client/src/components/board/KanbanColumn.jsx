@@ -38,12 +38,13 @@ function KanbanColumn({
               Drop a task here
             </p>
           ) : (
-            tasks.map((task) => (
+            tasks.map((task, index) => (
               <SortableTaskCard
                 key={task._id}
                 task={task}
                 onEdit={onEdit}
                 onDelete={onDelete}
+                isLast={index === tasks.length - 1}
               />
             ))
           )}

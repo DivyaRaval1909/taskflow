@@ -181,7 +181,7 @@ const toggleTheme = () => {
   };
 
   const handleDragEnd = async ({ active, over }) => {
-    if (!over) return;
+    if (!over || over.id === active.id) return;
 
     const activeTask = tasks.find(
       (task) => task._id === active.id
@@ -212,13 +212,24 @@ const toggleTheme = () => {
     let destinationIndex = destinationTasks.length;
 
     if (overTask) {
-      destinationIndex = destinationTasks.findIndex(
+      const targetIndex = destinationTasks.findIndex(
         (task) => task._id === overTask._id
       );
+      const visibleTargetTasks = filteredTasks
+        .filter((task) => task.columnId === targetColumnId)
+        .sort((a, b) => a.orderIndex - b.orderIndex);
+      const draggedRect = active.rect.current.translated;
+      const isDropAfterLast =
+        visibleTargetTasks.at(-1)?._id === overTask._id &&
+        draggedRect &&
+        over.rect &&
+        draggedRect.top + draggedRect.height / 2 >=
+          over.rect.top + over.rect.height / 2;
 
-      if (destinationIndex < 0) {
-        destinationIndex = destinationTasks.length;
-      }
+      destinationIndex =
+        targetIndex < 0
+          ? destinationTasks.length
+          : targetIndex + (isDropAfterLast ? 1 : 0);
     }
 
     // No-op if the task is already at the requested position.
@@ -273,7 +284,7 @@ const toggleTheme = () => {
 
         <div className="board-header-actions">
   <span className="board-stats">
-    {filteredTasks.length} / {tasks.length} tasks
+    {filteredTasks.length} tasks
   </span>
 
   <button
