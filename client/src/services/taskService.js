@@ -2,7 +2,6 @@
 import api from "./api";
 
 const taskService = {
-  // Fetch all tasks belonging to a board
   getTasks: async (boardId) => {
     const response = await api.get("/tasks", {
       params: { boardId },
@@ -11,35 +10,38 @@ const taskService = {
     return response.data;
   },
 
-  // Create a new task
-  createTask: async (taskData) => {
-    const response = await api.post("/tasks", taskData);
+  createTask: async (taskData, expectedRevision) => {
+    const response = await api.post("/tasks", {
+      ...taskData,
+      expectedRevision,
+    });
 
     return response.data;
   },
 
-  // Update task details
-  updateTask: async (taskId, boardId, updates) => {
+  updateTask: async (taskId, boardId, updates, expectedRevision) => {
     const response = await api.patch(
       `/tasks/${taskId}`,
-      updates,
-      { params: { boardId } }
+      {
+        ...updates,
+        expectedRevision,
+      },
+      {
+        params: { boardId },
+      }
     );
 
     return response.data;
   },
 
-  // Delete task
-  deleteTask: async (taskId, boardId) => {
-    const response = await api.delete(
-      `/tasks/${taskId}`,
-      { params: { boardId } }
-    );
+  deleteTask: async (taskId, boardId, expectedRevision) => {
+    const response = await api.delete(`/tasks/${taskId}`, {
+      params: { boardId, expectedRevision },
+    });
 
     return response.data;
   },
 
-  // Move or reorder task
   moveTask: async (taskId, moveData) => {
     const response = await api.patch(
       `/tasks/${taskId}/move`,
