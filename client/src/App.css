@@ -207,31 +207,33 @@ select:focus-visible {
 
 /* ---------- Search and filters ---------- */
 
+/* ---------- Premium search and filters ---------- */
+
 .board-filters {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: minmax(240px, 1fr) auto auto auto;
   align-items: center;
-  gap: 16px;
-  padding: 15px;
+  gap: 18px;
+  padding: 14px;
   margin-bottom: 26px;
-  border: 1px solid var(--border-color);
-  border-radius: 13px;
   background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
   box-shadow: var(--shadow-sm);
 }
 
+/* Search */
 .search-box {
   display: flex;
-  flex: 1 1 260px;
   align-items: center;
-  gap: 10px;
-  min-width: 220px;
-  padding: 11px 13px;
+  gap: 11px;
+  min-width: 0;
+  padding: 12px 15px;
   border: 1px solid var(--border-color);
-  border-radius: 9px;
-  background: var(--bg-primary);
-  color: var(--text-secondary);
-  transition: border-color 160ms ease, box-shadow 160ms ease;
+  border-radius: 11px;
+  background: var(--bg-tertiary);
+  color: var(--accent);
+  transition: border-color 180ms ease, box-shadow 180ms ease;
 }
 
 .search-box:focus-within {
@@ -250,18 +252,18 @@ select:focus-visible {
   font-size: 13px;
 }
 
-.search-box input:focus {
-  outline: none;
-}
-
 .search-box input::placeholder {
   color: var(--text-muted);
 }
 
+/* Filter groups */
 .filter-group {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 9px;
+  min-width: max-content;
+  padding-left: 17px;
+  border-left: 1px solid var(--border-color);
 }
 
 .filter-label {
@@ -269,25 +271,43 @@ select:focus-visible {
   align-items: center;
   gap: 6px;
   color: var(--text-secondary);
-  font-size: 11px;
-  font-weight: 750;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
 }
 
+.filter-label svg {
+  color: var(--accent);
+}
+
+/* Filter chips */
 .filter-options {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 10px;
+  gap: 7px;
 }
 
 .filter-option {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  color: var(--text-primary);
-  font-size: 12px;
-  cursor: pointer;
+  gap: 7px;
+  padding: 7px 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 600;
   white-space: nowrap;
+  cursor: pointer;
+  transition: all 160ms ease;
+}
+
+.filter-option:hover {
+  border-color: var(--accent);
+  color: var(--text-primary);
 }
 
 .filter-option input {
@@ -298,24 +318,79 @@ select:focus-visible {
   cursor: pointer;
 }
 
+/* Active filter chip */
+.filter-option:has(input:checked) {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+/* Clear filters */
 .clear-filters-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
-  padding: 8px 10px;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  background: var(--bg-primary);
-  color: var(--text-secondary);
-  font-size: 12px;
-  transition: all 150ms ease;
+  gap: 6px;
+  padding: 9px 11px;
+  border: 1px solid var(--accent);
+  border-radius: 9px;
+  background: transparent;
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: all 160ms ease;
 }
 
 .clear-filters-button:hover {
-  border-color: var(--accent);
-  color: var(--accent);
+  background: var(--accent);
+  color: #ffffff;
 }
+
+/* Responsive layout */
+@media (max-width: 1100px) {
+  .board-filters {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .search-box {
+    grid-column: 1 / -1;
+  }
+
+  .filter-group {
+    padding-left: 0;
+    border-left: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .board-filters {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding: 12px;
+  }
+
+  .search-box {
+    grid-column: auto;
+  }
+
+  .filter-group {
+    min-width: 0;
+  }
+
+  .filter-options {
+    gap: 6px;
+  }
+
+  .filter-option {
+    padding: 7px 9px;
+  }
+
+  .clear-filters-button {
+    width: 100%;
+  }
+}
+
 
 /* ---------- Kanban grid ---------- */
 
