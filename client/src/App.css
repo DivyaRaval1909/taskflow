@@ -1,14 +1,247 @@
 
+/* =====================================================
+   TASKFLOW — GLOBAL APPLICATION STYLES
+   Petpooja-inspired Crimson & Midnight Navy
+   ===================================================== */
+
+/* ---------- Global layout ---------- */
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  background: var(--bg-primary);
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
 #root {
   min-height: 100vh;
-  width: 100%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
 .app {
+  width: 100%;
   min-height: 100vh;
   padding: 40px;
   background: var(--bg-primary);
   color: var(--text-primary);
+  font-size: 13px;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.task-modal input:focus,
+.task-modal textarea:focus,
+.task-modal select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.task-modal input::placeholder,
+.task-modal textarea::placeholder {
+  color: var(--text-muted);
+}
+
+.task-modal textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+/* ---------- Loading and error states ---------- */
+
+.board-message {
+  padding: 50px 20px;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.board-message.error,
+.error {
+  color: var(--accent);
+}
+
+/* ---------- Responsive layout ---------- */
+
+@media (max-width: 1100px) {
+  .app {
+    padding: 28px;
+  }
+
+  .kanban-grid {
+    gap: 14px;
+  }
+
+  .kanban-column {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 900px) {
+  .kanban-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .kanban-column {
+    padding: 16px;
+  }
+
+  .board-header {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 700px) {
+  .app {
+    padding: 22px;
+  }
+
+  .board-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 18px;
+  }
+
+  .board-header-actions {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .board-filters {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .search-box {
+    flex-basis: auto;
+    min-width: 0;
+  }
+
+  .filter-group {
+    gap: 10px;
+  }
+
+  .task-actions {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 500px) {
+  .app {
+    padding: 16px;
+  }
+
+  .board-header h1 {
+    font-size: 25px;
+    letter-spacing: -0.8px;
+  }
+
+  .board-header-actions {
+    gap: 8px;
+  }
+
+  .board-stats {
+    margin-right: auto;
+  }
+
+  .kanban-column {
+    padding: 12px;
+  }
+
+  .task-card {
+    padding: 14px;
+  }
+
+  .task-modal {
+    padding: 20px;
+  }
+
+  .modal-actions {
+    flex-wrap: wrap;
+  }
+}
+
+/* ---------- Reduced motion accessibility ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+
+/* Drag-and-drop insertion indicator */
+
+.sortable-task-wrapper {
+  position: relative;
+}
+
+.sortable-task-wrapper.task-drop-target::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -7px;
+  height: 3px;
+  border-radius: 10px;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent-soft);
+  z-index: 20;
+  pointer-events: none;
+}
+
+/* Highlight the destination column */
+.kanban-column.column-drag-over {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  transition: background 150ms ease, border-color 150ms ease;
+}
+
+/* Keep the dragged task visually distinct */
+.sortable-task-wrapper:has(.task-card) {
+  transition: opacity 150ms ease;
 }
 
 .board-container {
