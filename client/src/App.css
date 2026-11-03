@@ -785,3 +785,36 @@ select:focus-visible {
     transition-duration: 0.01ms !important;
   }
 }
+
+
+/* Drag-and-drop insertion indicator */
+
+.sortable-task-wrapper {
+  position: relative;
+}
+
+.sortable-task-wrapper.task-drop-target::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -7px;
+  height: 3px;
+  border-radius: 10px;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent-soft);
+  z-index: 20;
+  pointer-events: none;
+}
+
+/* Highlight the destination column */
+.kanban-column.column-drag-over {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  transition: background 150ms ease, border-color 150ms ease;
+}
+
+/* Keep the dragged task visually distinct */
+.sortable-task-wrapper:has(.task-card) {
+  transition: opacity 150ms ease;
+}
